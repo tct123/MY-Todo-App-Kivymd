@@ -23,12 +23,6 @@ from DataBase import json_eidit
 
 
 
-
-
-Window.clearcolor = (0, 0, 0, 1)
-Window.size = (360, 680)
-
-
 class Content(BoxLayout):
     text = StringProperty()
     Time = StringProperty()
@@ -293,20 +287,28 @@ class Example(MDApp):
                 self.root.ids.page_s.add_widget(self.Upgrate_buttom)
                 
 
+    def cancil_selection(self, obj):
+        self.root.ids.page_f.ids.main_list.unselected_all()
+        left_action_items = []
+        right_action_items = [["dots-vertical", lambda x: self.callback(x)]]
+        self.root.ids.page_f.ids.toolbar.title = "Inbox"
+
+        self.root.ids.page_f.ids.toolbar.left_action_items = left_action_items
+        self.root.ids.page_f.ids.toolbar.right_action_items = right_action_items
+
+
 
     def set_selection_mode(self, instance_selection_list, mode):
         g = self.root.ids.page_f.ids.main_list.get_selected_list_items()
         if len(g)!=0:
             if mode:
                 left_action_items = [
-                    [
-                        "close",
-                        lambda x: self.root.ids.page_f.ids.main_list.unselected_all(),
-                    ]
+                    ["close",lambda x:self.cancil_selection(x)]
                 ]
                 right_action_items = [
                     ["trash-can", self.deleat_selected_list_items],
-                    ["dots-vertical", lambda x: self.callback(x)],
+                    ["select-all", lambda x: self.selected_all(x)],
+                    ["dots-vertical", lambda x: self.callback(x)]
                 ]
             else:
                 left_action_items = []
@@ -316,12 +318,15 @@ class Example(MDApp):
             if len(g) == 1:
                 right_action_items = [
                     ["circle-edit-outline", lambda x: self.eidit_todo(g[0])],
-                    ["trash-can", self.deleat_selected_list_items], 
+                    ["trash-can", self.deleat_selected_list_items],
+                    ["select-all", lambda x: self.selected_all(x)],
                     ["dots-vertical", lambda x: self.callback(x)]
                 ]
             self.root.ids.page_f.ids.toolbar.left_action_items = left_action_items
             self.root.ids.page_f.ids.toolbar.right_action_items = right_action_items
 
+    def selected_all(self,obj):
+        self.root.ids.page_f.ids.main_list.selected_all()
 
     def on_selected(self, instance_selection_list, instance_selection_items):
         g = self.root.ids.page_f.ids.main_list.get_selected_list_items()
@@ -330,12 +335,14 @@ class Example(MDApp):
                 right_action_items = [
                     ["circle-edit-outline", lambda x: self.eidit_todo(g[0])],
                     ["trash-can", self.deleat_selected_list_items], 
+                    ["select-all", lambda x: self.selected_all(x)],
                     ["dots-vertical", lambda x: self.callback(x)]
                 ]
                 self.root.ids.page_f.ids.toolbar.right_action_items = right_action_items
             elif len(g) >= 1:
                 right_action_items = [
                     ["trash-can", self.deleat_selected_list_items], 
+                    ["select-all", lambda x: self.selected_all(x)],
                     ["dots-vertical", lambda x: self.callback(x)]
                 ]
                 self.root.ids.page_f.ids.toolbar.right_action_items = right_action_items
@@ -353,6 +360,7 @@ class Example(MDApp):
             right_action_items = [
                 ["circle-edit-outline", lambda x: self.eidit_todo(g[0])],
                 ["trash-can", self.deleat_selected_list_items], 
+                ["select-all", lambda x: self.selected_all(x)],
                 ["dots-vertical", lambda x: self.callback(x)]
             ]
             self.root.ids.page_f.ids.toolbar.right_action_items = right_action_items
@@ -382,3 +390,4 @@ class Example(MDApp):
 
 
 Example().run()
+
