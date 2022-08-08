@@ -120,7 +120,7 @@ page_maniger:
         id: main_Layout
         orientation: "vertical"
 
-        MDToolbar:
+        MDTopAppBar:
             id: toolbar
             title: "Todo"
             right_action_items: [["dots-vertical", lambda x: app.callback(x)]]
@@ -157,7 +157,7 @@ page_maniger:
         id: main_Layout
         orientation: "vertical"
 
-        MDToolbar:
+        MDTopAppBar:
             title: "New Task"
             pos_hint: {'x': 0.0, 'y': 0.905}
             left_action_items: [["arrow-left",  lambda x: app.change_screen("first_page")]]
@@ -206,7 +206,7 @@ page_maniger:
         id: main_Layout
         orientation: "vertical"
 
-        MDToolbar:
+        MDTopAppBar:
 
             title: "Completed Tasks"
             pos_hint: {'x': 0.0, 'y': 0.905}
